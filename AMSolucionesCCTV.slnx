@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AMSoluciones.Api/AMSoluciones.Api.csproj" />
+    <Project Path="src/AMSoluciones.Application/AMSoluciones.Application.csproj" />
+    <Project Path="src/AMSoluciones.Domain/AMSoluciones.Domain.csproj" />
+    <Project Path="src/AMSoluciones.Infrastructure/AMSoluciones.Infrastructure.csproj" />
+    <Project Path="src/AMSoluciones.Web/AMSoluciones.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AMSoluciones.Application.Tests/AMSoluciones.Application.Tests.csproj" />
+    <Project Path="tests/AMSoluciones.Domain.Tests/AMSoluciones.Domain.Tests.csproj" />
+    <Project Path="tests/AMSoluciones.Infrastructure.Tests/AMSoluciones.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>
