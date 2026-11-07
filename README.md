@@ -94,8 +94,6 @@ Además, ASP.NET Core Identity creará sus propias tablas (usuarios y roles) med
 
 ![Diagrama ER](docs/diagrama-er.png)
 
-> Pendiente: exportar el diagrama desde DBeaver y guardarlo en `docs/diagrama-er.png`.
-
 ## Requisitos
 
 - .NET SDK 10
