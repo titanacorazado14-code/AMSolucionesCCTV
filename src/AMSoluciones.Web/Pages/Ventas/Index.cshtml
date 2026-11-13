@@ -1,0 +1,52 @@
+@page
+@model AMSoluciones.Web.Pages.Ventas.IndexModel
+@{
+    ViewData["Title"] = "Ventas";
+}
+
+<div class="encabezado-pagina">
+    <div>
+        <h1>Ventas</h1>
+        <p class="subtitulo">Historial de ventas. Las anuladas conservan su total y su detalle.</p>
+    </div>
+    <a class="boton boton-acento" asp-page="Nueva">Registrar venta</a>
+</div>
+
+<div class="tarjeta">
+    @if (Model.Ventas.Count == 0)
+    {
+        <p class="vacio">Todavía no hay ventas registradas.</p>
+    }
+    else
+    {
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>N.º</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th class="num">Líneas</th>
+                        <th class="num">Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model.Ventas)
+                    {
+                        <tr>
+                            <td>@v.Id</td>
+                            <td>@Formato.Fecha(v.FechaUtc)</td>
+                            <td>
+                                <span class="etiqueta @(v.Estado == "Anulada" ? "etiqueta-anulada" : "etiqueta-confirmada")">@v.Estado</span>
+                            </td>
+                            <td class="num">@v.Detalles.Count</td>
+                            <td class="num">@Formato.Moneda(v.Total)</td>
+                            <td><a class="boton boton-pequeno" asp-page="Detalle" asp-route-id="@v.Id">Ver detalle</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

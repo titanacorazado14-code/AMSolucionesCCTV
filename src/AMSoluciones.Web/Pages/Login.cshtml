@@ -1,0 +1,39 @@
+@page
+@model AMSoluciones.Web.Pages.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar sesión - AM Soluciones</title>
+    <link rel="stylesheet" href="~/css/am.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="login-fondo">
+        <div class="login-caja">
+            <div class="login-marca">&#9673;</div>
+            <h1>AM Soluciones</h1>
+            <p class="subtitulo">Cámaras y seguridad electrónica<br />Inventario y ventas</p>
+
+            <div asp-validation-summary="ModelOnly" class="alerta alerta-error"></div>
+
+            <form method="post">
+                <label>
+                    Correo electrónico
+                    <input asp-for="Input.Email" autocomplete="username" />
+                    <span asp-validation-for="Input.Email" class="error-campo"></span>
+                </label>
+                <label>
+                    Contraseña
+                    <input asp-for="Input.Contrasena" autocomplete="current-password" />
+                    <span asp-validation-for="Input.Contrasena" class="error-campo"></span>
+                </label>
+                <button type="submit" class="boton boton-acento">Entrar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

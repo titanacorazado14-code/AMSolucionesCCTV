@@ -1,10 +1,55 @@
-﻿@page
-@model IndexModel
+@page
+@model AMSoluciones.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Inicio</h1>
+<p class="subtitulo">Resumen del inventario y de las ventas confirmadas.</p>
+
+<div class="indicadores">
+    <div class="indicador">
+        <span>Productos</span>
+        <strong>@Model.Resumen.Productos</strong>
+    </div>
+    <div class="indicador">
+        <span>Unidades disponibles</span>
+        <strong>@Model.Resumen.Unidades.ToString("N0", CultureInfo.InvariantCulture)</strong>
+    </div>
+    <div class="indicador">
+        <span>Ventas confirmadas</span>
+        <strong>@Model.Resumen.VentasConfirmadas</strong>
+    </div>
+    <div class="indicador">
+        <span>Total confirmado</span>
+        <strong>@Formato.Moneda(Model.Resumen.TotalConfirmado)</strong>
+    </div>
+</div>
+
+<div class="tarjeta">
+    <h2>Productos con pocas existencias (5 unidades o menos)</h2>
+    @if (Model.PocasExistencias.Count == 0)
+    {
+        <p class="vacio">Todos los productos tienen existencias suficientes.</p>
+    }
+    else
+    {
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr><th>SKU</th><th>Producto</th><th class="num">Disponible</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model.PocasExistencias)
+                    {
+                        <tr>
+                            <td>@e.Sku</td>
+                            <td>@e.ProductoNombre</td>
+                            <td class="num"><span class="etiqueta etiqueta-poco">@e.Disponible</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>

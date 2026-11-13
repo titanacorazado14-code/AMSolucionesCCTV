@@ -1,0 +1,53 @@
+@page
+@model AMSoluciones.Web.Pages.Ventas.NuevaModel
+@{
+    ViewData["Title"] = "Registrar venta";
+}
+
+<div class="encabezado-pagina">
+    <div>
+        <h1>Registrar venta</h1>
+        <p class="subtitulo">
+            Escriba la cantidad de cada producto que se vende. El precio lo toma el sistema del catálogo.
+            Máximo 50 líneas; no se vende más de lo que hay en existencia.
+        </p>
+    </div>
+    <a class="boton boton-claro" style="color:#123a6b;border-color:#123a6b" asp-page="Index">Volver a ventas</a>
+</div>
+
+<form method="post">
+    <div class="tarjeta">
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Producto</th>
+                        <th class="num">Precio</th>
+                        <th class="num">Disponible</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Filas.Count; i++)
+                    {
+                        var fila = Model.Filas[i];
+                        <tr>
+                            <td>@fila.Sku</td>
+                            <td>@fila.Nombre</td>
+                            <td class="num">@Formato.Moneda(fila.Precio)</td>
+                            <td class="num">@fila.Disponible</td>
+                            <td>
+                                <input type="hidden" name="Lineas[@i].ProductoId" value="@fila.ProductoId" />
+                                <input type="number" name="Lineas[@i].Cantidad" min="0" max="1000000"
+                                       value="@Model.CantidadPrevia(fila.ProductoId)" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button type="submit" class="boton boton-acento">Registrar venta</button>
+</form>

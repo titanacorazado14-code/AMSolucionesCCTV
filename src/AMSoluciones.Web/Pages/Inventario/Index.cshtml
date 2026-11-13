@@ -1,0 +1,60 @@
+@page
+@model AMSoluciones.Web.Pages.Inventario.IndexModel
+@{
+    ViewData["Title"] = "Inventario";
+}
+
+<div class="encabezado-pagina">
+    <div>
+        <h1>Inventario</h1>
+        <p class="subtitulo">Existencias por producto. Reponga unidades cuando llegue mercancía (de 1 a 1,000,000 por reposición).</p>
+    </div>
+</div>
+
+<div class="tarjeta">
+    @if (Model.Existencias.Count == 0)
+    {
+        <p class="vacio">No hay productos con inventario.</p>
+    }
+    else
+    {
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Producto</th>
+                        <th class="num">Disponible</th>
+                        <th>Reponer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model.Existencias)
+                    {
+                        <tr>
+                            <td>@e.Sku</td>
+                            <td>@e.ProductoNombre</td>
+                            <td class="num">
+                                @if (e.Disponible <= 5)
+                                {
+                                    <span class="etiqueta etiqueta-poco">@e.Disponible</span>
+                                }
+                                else
+                                {
+                                    <text>@e.Disponible</text>
+                                }
+                            </td>
+                            <td>
+                                <form method="post" asp-page-handler="Reponer" class="formulario" style="flex-wrap:nowrap">
+                                    <input type="hidden" name="productoId" value="@e.ProductoId" />
+                                    <input type="number" name="cantidad" min="1" max="1000000" placeholder="Cantidad" required />
+                                    <button type="submit" class="boton boton-pequeno boton-acento">Reponer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

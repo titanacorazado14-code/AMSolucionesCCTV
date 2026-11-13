@@ -1,0 +1,76 @@
+@page
+@model AMSoluciones.Web.Pages.Categorias.IndexModel
+@{
+    ViewData["Title"] = "Categorías";
+}
+
+<div class="encabezado-pagina">
+    <div>
+        <h1>Categorías</h1>
+        <p class="subtitulo">Agrupan los productos del catálogo.</p>
+    </div>
+</div>
+
+@if (Model.EsAdministrador)
+{
+    <div class="tarjeta">
+        <h2>@(Model.Id is null ? "Nueva categoría" : "Editar categoría")</h2>
+        <form method="post" asp-page-handler="Guardar" class="formulario">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <label>
+                Nombre
+                <input type="text" name="Nombre" value="@Model.Nombre" maxlength="100" required />
+            </label>
+            <button type="submit" class="boton boton-acento">@(Model.Id is null ? "Crear" : "Guardar cambios")</button>
+            @if (Model.Id is not null)
+            {
+                <a class="boton boton-claro" style="color:#123a6b;border-color:#123a6b" asp-page="Index">Cancelar</a>
+            }
+        </form>
+    </div>
+}
+
+<div class="tarjeta">
+    @if (Model.Categorias.Count == 0)
+    {
+        <p class="vacio">No hay categorías registradas.</p>
+    }
+    else
+    {
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        @if (Model.EsAdministrador)
+                        {
+                            <th>Acciones</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model.Categorias)
+                    {
+                        <tr>
+                            <td>@c.Id</td>
+                            <td>@c.Nombre</td>
+                            @if (Model.EsAdministrador)
+                            {
+                                <td>
+                                    <div class="acciones">
+                                        <a class="boton boton-pequeno" asp-page="Index" asp-route-editar="@c.Id">Editar</a>
+                                        <form method="post" asp-page-handler="Eliminar" asp-route-id="@c.Id" style="margin:0"
+                                              onsubmit="return confirm('¿Eliminar la categoría @c.Nombre?');">
+                                            <button type="submit" class="boton boton-pequeno boton-peligro">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

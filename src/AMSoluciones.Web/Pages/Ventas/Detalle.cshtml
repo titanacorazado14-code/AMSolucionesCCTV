@@ -1,0 +1,61 @@
+@page "{id:int}"
+@model AMSoluciones.Web.Pages.Ventas.DetalleModel
+@{
+    ViewData["Title"] = "Venta " + Model.Venta.Id;
+}
+
+<div class="encabezado-pagina">
+    <div>
+        <h1>Venta N.º @Model.Venta.Id</h1>
+        <p class="subtitulo">
+            @Formato.Fecha(Model.Venta.FechaUtc) &middot;
+            <span class="etiqueta @(Model.Venta.Estado == "Anulada" ? "etiqueta-anulada" : "etiqueta-confirmada")">@Model.Venta.Estado</span>
+            @if (Model.Venta.AnuladaUtc is DateTimeOffset anulada)
+            {
+                <text> &middot; anulada el @Formato.Fecha(anulada)</text>
+            }
+        </p>
+    </div>
+    <div class="acciones">
+        <a class="boton boton-claro" style="color:#123a6b;border-color:#123a6b" asp-page="Index">Volver a ventas</a>
+        @if (Model.EsAdministrador && Model.Venta.Estado != "Anulada")
+        {
+            <form method="post" asp-page-handler="Anular" asp-route-id="@Model.Venta.Id" style="margin:0"
+                  onsubmit="return confirm('¿Anular esta venta? Las unidades vuelven al inventario.');">
+                <button type="submit" class="boton boton-peligro">Anular venta</button>
+            </form>
+        }
+    </div>
+</div>
+
+<div class="tarjeta">
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th class="num">Cantidad</th>
+                    <th class="num">Precio unitario</th>
+                    <th class="num">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.Venta.Detalles)
+                {
+                    <tr>
+                        <td>@d.ProductoNombre</td>
+                        <td class="num">@d.Cantidad</td>
+                        <td class="num">@Formato.Moneda(d.PrecioUnitario)</td>
+                        <td class="num">@Formato.Moneda(d.Subtotal)</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3" class="num">Total</th>
+                    <th class="num">@Formato.Moneda(Model.Venta.Total)</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
