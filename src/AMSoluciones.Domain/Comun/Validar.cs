@@ -11,23 +11,11 @@ internal static class Validar
     public static string TextoObligatorio(string? valor, string campo, int maximo)
     {
         if (string.IsNullOrWhiteSpace(valor))
-            throw new DominioException($"El campo '{campo}' es obligatorio.");
+            throw new DominioException($"El campo '{campo}' es obligatorio.", "CAMPO_OBLIGATORIO");
 
         var limpio = valor.Trim();
         if (limpio.Length > maximo)
-            throw new DominioException($"El campo '{campo}' no puede superar {maximo} caracteres.");
-
-        return limpio;
-    }
-
-    public static string? TextoOpcional(string? valor, string campo, int maximo)
-    {
-        if (string.IsNullOrWhiteSpace(valor))
-            return null;
-
-        var limpio = valor.Trim();
-        if (limpio.Length > maximo)
-            throw new DominioException($"El campo '{campo}' no puede superar {maximo} caracteres.");
+            throw new DominioException($"El campo '{campo}' no puede superar {maximo} caracteres.", "CAMPO_LARGO");
 
         return limpio;
     }

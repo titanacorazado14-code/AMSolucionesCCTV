@@ -8,15 +8,15 @@ namespace AMSoluciones.Domain.Tests;
 public class VentaTests
 {
     [Fact]
-    public void AgregarDetalle_CalculaSubtotalYTotal()
+    public void AgregarDetalle_CalculaElTotalDeVariasLineas()
     {
         var venta = new Venta();
 
-        venta.AgregarDetalle(1, "Cámara bala 2MP", 2, 1450m);
-        venta.AgregarDetalle(2, "Fuente 12V 2A", 2, 320m);
+        venta.AgregarDetalle(1, "Cámara bala 2MP", 2, 1450m);   // 2900
+        venta.AgregarDetalle(2, "Conector BNC", 4, 25m);   // 100
 
         Assert.Equal(2, venta.Detalles.Count);
-        Assert.Equal(2900m + 640m, venta.Total);
+        Assert.Equal(3000m, venta.Total);
     }
 
     [Fact]
@@ -25,8 +25,7 @@ public class VentaTests
         var venta = new Venta();
         venta.AgregarDetalle(1, "Cámara bala 2MP", 1, 1450m);
 
-        Assert.Throws<DominioException>(() =>
-            venta.AgregarDetalle(1, "Cámara bala 2MP", 1, 1450m));
+        Assert.Throws<DominioException>(() => venta.AgregarDetalle(1, "Cámara bala 2MP", 1, 1450m));
     }
 
     [Fact]
@@ -34,12 +33,21 @@ public class VentaTests
     {
         var venta = new Venta();
 
-        Assert.Throws<DominioException>(() =>
-            venta.AgregarDetalle(1, "Cámara bala 2MP", 0, 1450m));
+        Assert.Throws<DominioException>(() => venta.AgregarDetalle(1, "Cámara bala 2MP", 0, 1450m));
     }
 
     [Fact]
-    public void Confirmar_SinDetalles_LanzaDominioException()
+    public void AgregarDetalle_ConMasDeCincuentaLineas_LanzaDominioException()
+    {
+        var venta = new Venta();
+        for (var i = 1; i <= Venta.MaximoLineas; i++)
+            venta.AgregarDetalle(i, $"Producto {i}", 1, 10m);
+
+        Assert.Throws<DominioException>(() => venta.AgregarDetalle(999, "Otro", 1, 10m));
+    }
+
+    [Fact]
+    public void Confirmar_SinLineas_LanzaDominioException()
     {
         var venta = new Venta();
 
@@ -47,15 +55,17 @@ public class VentaTests
     }
 
     [Fact]
-    public void Anular_CambiaElEstadoYRegistraLaFecha()
+    public void Anular_ConservaElTotalYLosDetalles()
     {
         var venta = new Venta();
-        venta.AgregarDetalle(1, "Cámara bala 2MP", 1, 1450m);
+        venta.AgregarDetalle(1, "Cámara bala 2MP", 2, 1450m);
 
         venta.Anular();
 
         Assert.Equal(EstadoVenta.Anulada, venta.Estado);
         Assert.NotNull(venta.AnuladaUtc);
+        Assert.Equal(2900m, venta.Total);
+        Assert.Single(venta.Detalles);
     }
 
     [Fact]

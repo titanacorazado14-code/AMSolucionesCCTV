@@ -8,4 +8,5 @@ public interface IInventarioRepository
     Task<IReadOnlyList<Inventario>> ObtenerPorProductoIdsAsync(IEnumerable<int> productoIds, CancellationToken ct = default);
     Task<IReadOnlyList<Inventario>> ListarAsync(CancellationToken ct = default);
     Task AgregarAsync(Inventario inventario, CancellationToken ct = default);
+    void Eliminar(Inventario inventario);
 }
