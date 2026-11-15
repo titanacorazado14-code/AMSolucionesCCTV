@@ -12,10 +12,10 @@ namespace AMSoluciones.Infrastructure;
 
 public static class DependencyInjection
 {
-    /// <summary>
+    
     /// Registra todo lo de Infrastructure: base de datos, repositorios e Identity.
     /// Api y Web solo llaman a este método.
-    /// </summary>
+
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var cadena = configuration.GetConnectionString("DefaultConnection")
