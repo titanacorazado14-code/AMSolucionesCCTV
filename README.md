@@ -1,6 +1,6 @@
 # AM Soluciones - Sistema de Inventario y Ventas
 
-Sistema de inventario y ventas para **AM Soluciones de Cámaras y Seguridad Electrónica: gestiona el catálogo de productos de un sistema CCTV (cámaras, DVR/NVR, discos duros, fuentes de poder, cableado y conectores), controla las existencias y registra ventas.
+Sistema de inventario y ventas para AM Soluciones de Cámaras y Seguridad Electrónica: gestiona el catálogo de productos de un sistema CCTV (cámaras, DVR/NVR, discos duros, fuentes de poder, cableado y conectores), controla las existencias y registra ventas.
 
 Proyecto final de la asignatura INF-5130. Desarrollado en C# con .NET 10, SQL Server y Entity Framework Core, con Clean Architecture, API REST, interfaz Razor Pages y pruebas automatizadas con xUnit.
 
